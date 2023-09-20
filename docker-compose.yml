@@ -1,0 +1,29 @@
+version: '3'
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/nginx.cfg:/etc/nginx/nginx.conf
+    ports:
+      - "8088:80"
+    depends_on:
+      - web1
+      - web2
+    environment:
+      - BALANCE_FACTOR=1
+
+  web1:
+    build:
+      context: ./web1
+    ports:
+      - "3001:80"
+    environment:
+      - NODE_ENV=web1
+
+  web2:
+    build:
+      context: ./web2
+    ports:
+      - "3002:80"
+    environment:
+      - NODE_ENV=web2
